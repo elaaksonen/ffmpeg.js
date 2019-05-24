@@ -41,6 +41,7 @@ MP4_SHARED_DEPS = \
 	build/x264/dist/lib/libx264.so
 
 all: webm mp4 webm-asm mp4-asm
+wasm-only: webm mp4
 webm: ffmpeg-webm.js
 mp4: ffmpeg-mp4.js
 webm-asm: ffmpeg-webm-asm.js
@@ -331,7 +332,6 @@ ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS)
 ffmpeg-webm-asm.js: $(FFMPEG_WEBM_BC) $(PRE_JS)
 	emcc $(FFMPEG_WEBM_BC) $(WEBM_SHARED_DEPS) \
 		-s TOTAL_MEMORY=67108864 \
-		-s OUTLINING_LIMIT=20000 \
 		-O3 --memory-init-file 0 \
 		-s WASM=0 \
 		$(EMCC_COMMON_ARGS) && \
@@ -340,7 +340,6 @@ ffmpeg-webm-asm.js: $(FFMPEG_WEBM_BC) $(PRE_JS)
 ffmpeg-mp4-asm.js: $(FFMPEG_MP4_BC) $(PRE_JS)
 	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		-s TOTAL_MEMORY=67108864 \
-		-s OUTLINING_LIMIT=20000 \
 		-O3 --memory-init-file 0 \
 		-s WASM=0 \
 		$(EMCC_COMMON_ARGS) && \
